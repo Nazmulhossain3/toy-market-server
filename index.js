@@ -54,7 +54,7 @@ async function run() {
 
    
 
-
+    // this query for getting data from email
 
     app.get('/myTeddy/:email', async(req,res)=>{
 
@@ -62,6 +62,22 @@ async function run() {
         res.send(result)
     })
 
+    // this query for getting data from email
+
+    app.get('/newTeddy/:text', async(req,res)=> {
+
+      if(req.params.text == 'Honey Bear' || req.params.text == 'Snugglekins' || req.params.text == 'Fuzzy'){
+        const result = await TeddyCollection.find({Sub_Category : req.params.text}).toArray()
+        res.send(result)
+      }
+
+       
+    })
+
+    
+    
+    
+    
     // it for update
      app.put('/myTeddy/:id', async(req,res)=>{
         const id = req.params.id 
