@@ -63,18 +63,7 @@ async function run() {
     })
 
     // it for update
-
-
-//    app.get('/myTeddy/:id', async (req,res)=> {
-
-//         const id = req.params.id
-//         const query = {_id : new ObjectId(id)}
-//         const result = await TeddyCollection.find(query).toArray()
-//         res.send(result)
-
-//     })
-
-    app.put('/myTeddy/:id', async(req,res)=>{
+     app.put('/myTeddy/:id', async(req,res)=>{
         const id = req.params.id 
         const filter = {_id : new ObjectId(id)}
         const options = {upsert : true}
@@ -91,6 +80,15 @@ async function run() {
         res.send(result)
     })
 
+
+    // its for delete
+
+    app.delete('/myTeddy/:id', async(req,res)=>{
+        const id = req.params.id 
+        const query = {_id : new ObjectId(id)}
+        const result = await TeddyCollection.deleteOne(query)
+        res.send(result)
+    })
 
 
 
