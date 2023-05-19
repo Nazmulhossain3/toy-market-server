@@ -52,6 +52,15 @@ async function run() {
 
     })
 
+    app.get('/myTeddy/:email', async(req,res)=>{
+
+        const result = await TeddyCollection.find({email : req.params.email}).toArray()
+        res.send(result)
+
+
+
+    })
+
 
 
 
