@@ -52,13 +52,43 @@ async function run() {
 
     })
 
+   
+
+
+
     app.get('/myTeddy/:email', async(req,res)=>{
 
         const result = await TeddyCollection.find({email : req.params.email}).toArray()
         res.send(result)
+    })
+
+    // it for update
 
 
+//    app.get('/myTeddy/:id', async (req,res)=> {
 
+//         const id = req.params.id
+//         const query = {_id : new ObjectId(id)}
+//         const result = await TeddyCollection.find(query).toArray()
+//         res.send(result)
+
+//     })
+
+    app.put('/myTeddy/:id', async(req,res)=>{
+        const id = req.params.id 
+        const filter = {_id : new ObjectId(id)}
+        const options = {upsert : true}
+        const udpdatedTeddy = req.body
+        const teddy = {
+            $set : {
+                price:udpdatedTeddy.price,
+                Available_quantity: udpdatedTeddy.Available_quantity,
+                Detail_description: udpdatedTeddy.Detail_description,
+               }
+        }
+    
+        const result = await TeddyCollection.updateOne(filter,teddy,options)
+        res.send(result)
     })
 
 
