@@ -3,8 +3,9 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 const app = express()
 const cors = require('cors');
-const port = process.env.PORT || 5000
 require('dotenv').config()
+
+const port = process.env.PORT || 5000
 
 
 // middleware
@@ -31,25 +32,34 @@ async function run() {
 
     const TeddyCollection = client.db("teddyDb").collection('teddy')
 
-    const indexKeys = {name : 1}
-    const indexOptions = {name : 'toyName'}
+    // const indexKeys = {name : 1}
+    // const indexOptions = {name : 'toyName'}
 
-    const result = await TeddyCollection.createIndex(indexKeys,indexOptions)
+    // const result = await TeddyCollection.createIndex(indexKeys,indexOptions)
 
-    app.get('/toySearch/:text', async(req,res)=> {
-
-      const toySearch = req.params.text
-      const result = await TeddyCollection.find({
-
-        $or : [
-          {name : {$regex : toySearch, $options : 'i'}},
-        ],
-
-      }).toArray()
-
-      res.send(result)
-
+    app.get("/toySearch/:text", async (req, res) => {
+      const text = req.params.text;
+      const Alldata = await TeddyCollection.find().toArray();
+      const result = Alldata.filter((data) => data.name.toLowerCase().includes(text.toLowerCase()));
+      res.send(result);
+   
+   
     })
+   
+    // app.get('/toySearch/:text', async(req,res)=> {
+
+    //   const toySearch = req.params.text
+    //   const result = await TeddyCollection.find({
+
+    //     $or : [
+    //       {name : {$regex : toySearch, $options : 'i'}},
+    //     ],
+
+    //   }).toArray()
+
+    //   res.send(result)
+
+    // })
 
 
 
@@ -79,6 +89,12 @@ async function run() {
     // this query for getting data from email
 
     app.get('/myTeddy/:email', async(req,res)=>{
+
+      // const type = req.params.type === 'ascending'
+      // const sortObj = {}
+      // const value = req.params.value
+      //  sortObj[value] = type ? 1 : -1
+      // .sort(sortObj)
 
         const result = await TeddyCollection.find({email : req.params.email}).toArray()
         res.send(result)
