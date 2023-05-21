@@ -63,9 +63,14 @@ async function run() {
     app.get("/myTeddy/:email", async (req, res) => {
 
       const sort = req.query.sort === 'ascending' ? 1 : -1;
+      
 
-      const result = await TeddyCollection.find({email: req.params.email,}).sort({price : sort}).toArray();
+
+      const result = await TeddyCollection.find({email: req.params.email}).sort({ price: sort }).toArray();
+      
+      console.log(result)
       res.send(result);
+      
     
     
     });
